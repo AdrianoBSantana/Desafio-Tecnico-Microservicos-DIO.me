@@ -1,7 +1,7 @@
 // src/Vendas.API/Models/ItemPedido.cs
 
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Text.Json.Serialization;
 namespace Vendas.API.Models
 {
     public class ItemPedido
@@ -20,6 +20,7 @@ namespace Vendas.API.Models
         public Guid PedidoId { get; set; }
         
         // Propriedade de navegação para o Pedido
-        public Pedido? Pedido { get; set; } 
+        [JsonIgnore] 
+    public Pedido? Pedido { get; set; } 
     }
 }

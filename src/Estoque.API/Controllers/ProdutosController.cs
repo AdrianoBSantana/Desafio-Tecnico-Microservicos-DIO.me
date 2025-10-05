@@ -22,7 +22,7 @@ namespace Estoque.API.Controllers
         /// </summary>
         [HttpPost]
         public async Task<ActionResult<Produto>> CadastrarProduto(Produto produto)
-        {
+        {   produto.Id = Guid.NewGuid();
             // Adiciona a entidade ao DbContext (ainda não está no banco)
             _context.Produtos.Add(produto);
             

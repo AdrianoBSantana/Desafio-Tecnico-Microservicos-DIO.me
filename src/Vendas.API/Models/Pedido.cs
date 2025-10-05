@@ -8,19 +8,16 @@ namespace Vendas.API.Models
     {
         public Guid Id { get; set; }
         
-        // Identificador do cliente que fez o pedido (necessário para autenticação futura)
+        // Este deve ser requerido pelo cliente
         public required Guid ClienteId { get; set; } 
         
-        // Status do pedido (ex: "Criado", "Processando", "Enviado")
-        public required string Status { get; set; } 
+        // ESTES NÃO SÃO REQUERIDOS NA ENTRADA, POIS SÃO GERADOS:
+        public string? Status { get; set; }
+        public DateTime DataCriacao { get; set; } 
         
-        public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
+        [Column(TypeName = "decimal(18, 2)")]
+       public decimal? ValorTotal { get; set; }  
 
-        // O valor total do pedido, calculado a partir dos itens
-        [Column(TypeName = "decimal(18, 2)")] // Garante precisão no banco
-        public decimal ValorTotal { get; set; } 
-
-        // Relação 1-para-Muitos: Um pedido pode ter muitos itens
         public ICollection<ItemPedido> Itens { get; set; } = new List<ItemPedido>();
     }
 }

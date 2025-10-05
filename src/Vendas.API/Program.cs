@@ -19,6 +19,11 @@ builder.Services.AddDbContext<VendasDbContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer(); // Necessário para o Swagger
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient<EstoqueService>(client =>
+{
+    // ❗ A URL DO SEU SERVIÇO DE ESTOQUE (Verifique a porta do Estoque.API!)
+    client.BaseAddress = new Uri("http://localhost:5065"); 
+});
 
 
 var app = builder.Build();
