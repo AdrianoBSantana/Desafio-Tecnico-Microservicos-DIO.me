@@ -1,55 +1,93 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Estoque.API.Data;
 using Estoque.API.Models;
-using Microsoft.AspNetCore.Mvc;
 
-namespace Estoque.API.Controllers
+[ApiController]
+[Route("api/[controller]")]
+public class ProdutosController : ControllerBase
 {
-    [ApiController]
-    [Route("api/produtos")] // A rota que o cliente usará
-    public class ProdutosController : ControllerBase
+    private readonly EstoqueDbContext _context;
+
+    public ProdutosController(EstoqueDbContext context)
     {
-        private readonly EstoqueDbContext _context;
+        _context = context;
+    }
 
-        // Injeção de Dependência: O .NET fornece o DbContext
-        public ProdutosController(EstoqueDbContext context)
+    // GET: api/Produtos
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Produto>>> GetProdutos()
+    {
+        return await _context.Produtos.ToListAsync();
+    }
+
+    // GET: api/Produtos/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Produto>> GetProduto(int id)
+    {
+        var produto = await _context.Produtos.FindAsync(id);
+
+        if (produto == null)
         {
-            _context = context;
+            return NotFound();
         }
 
-        // Endpoint: POST api/produtos
-        /// <summary>
-        /// Cadastra um novo produto no estoque.
-        /// </summary>
-        [HttpPost]
-        public async Task<ActionResult<Produto>> CadastrarProduto(Produto produto)
-        {   produto.Id = Guid.NewGuid();
-            // Adiciona a entidade ao DbContext (ainda não está no banco)
-            _context.Produtos.Add(produto);
-            
-            // Salva as mudanças no banco de dados
+        return produto;
+    }
+
+    // POST: api/Produtos
+    [HttpPost]
+    public async Task<ActionResult<Produto>> PostProduto(Produto produto)
+    {
+        _context.Produtos.Add(produto);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetProduto), new { id = produto.Id }, produto);
+    }
+
+    // PUT: api/Produtos/5
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutProduto(int id, Produto produto)
+    {
+        if (id != produto.Id)
+        {
+            return BadRequest();
+        }
+
+        _context.Entry(produto).State = EntityState.Modified;
+
+        try
+        {
             await _context.SaveChangesAsync();
-            
-            // Retorna a resposta HTTP 201 Created com a localização do novo recurso
-            return CreatedAtAction(nameof(ConsultarPorId), new { id = produto.Id }, produto);
         }
-
-        // Endpoint: GET api/produtos/{id}
-        /// <summary>
-        /// Consulta um produto pelo ID.
-        /// </summary>
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Produto>> ConsultarPorId(Guid id)
+        catch (DbUpdateConcurrencyException)
         {
-            var produto = await _context.Produtos.FindAsync(id);
-
-            if (produto == null)
+            if (!_context.Produtos.Any(e => e.Id == id))
             {
-                // Retorna HTTP 404 Not Found se o produto não existir
                 return NotFound();
             }
-
-            // Retorna o produto com HTTP 200 OK
-            return Ok(produto);
+            else
+            {
+                throw;
+            }
         }
+
+        return NoContent();
+    }
+
+    // DELETE: api/Produtos/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProduto(int id)
+    {
+        var produto = await _context.Produtos.FindAsync(id);
+        if (produto == null)
+        {
+            return NotFound();
+        }
+
+        _context.Produtos.Remove(produto);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
     }
 }

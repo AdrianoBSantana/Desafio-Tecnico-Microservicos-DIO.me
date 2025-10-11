@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "anCo4drnXno=",
+  "dgSpecHash": "eRT3BeTuNjs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\adria\\OneDrive\\Área de Trabalho\\PROJETOS\\c#\\Nova pasta\\DesafioMicroservicos\\src\\Vendas.API\\Vendas.API.csproj",
+  "projectFilePath": "C:\\Users\\adria\\OneDrive\\Desktop\\PROJETOS\\dio.me projects\\PROJETO MICROSERVIÇOS\\Desafio-Tecnico-Microservicos-DIO.me\\src\\Vendas.API\\Vendas.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\adria\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\adria\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.9\\microsoft.aspnetcore.openapi.9.0.9.nupkg.sha512",

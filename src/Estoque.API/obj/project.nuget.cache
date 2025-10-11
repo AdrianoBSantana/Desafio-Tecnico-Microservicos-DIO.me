@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QIp+9NhqHXQ=",
+  "dgSpecHash": "RUu/iQDay70=",
   "success": true,
-  "projectFilePath": "C:\\Users\\adria\\OneDrive\\Área de Trabalho\\PROJETOS\\c#\\Nova pasta\\DesafioMicroservicos\\src\\Estoque.API\\Estoque.API.csproj",
+  "projectFilePath": "C:\\Users\\adria\\OneDrive\\Desktop\\PROJETOS\\dio.me projects\\PROJETO MICROSERVIÇOS\\Desafio-Tecnico-Microservicos-DIO.me\\src\\Estoque.API\\Estoque.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\adria\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\adria\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

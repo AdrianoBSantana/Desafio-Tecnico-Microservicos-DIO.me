@@ -10,8 +10,8 @@
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": "9.0.9",
           "Microsoft.EntityFrameworkCore.Design": "9.0.9",
-          "Microsoft.EntityFrameworkCore.Sqlite": "9.0.9",
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.9",
+          "Microsoft.EntityFrameworkCore.Sqlite": "9.0.9",
           "Swashbuckle.AspNetCore": "9.0.6"
         },
         "runtime": {
