@@ -11,7 +11,7 @@ using Vendas.API.Data;
 namespace Vendas.API.Migrations
 {
     [DbContext(typeof(VendasDbContext))]
-    [Migration("20251005001121_InitialMigration")]
+    [Migration("20251011203933_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -26,14 +26,14 @@ namespace Vendas.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("PedidoId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("PedidoId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("PrecoUnitario")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<Guid>("ProdutoId")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("ProdutoId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantidade")
                         .HasColumnType("INTEGER");
@@ -42,27 +42,23 @@ namespace Vendas.API.Migrations
 
                     b.HasIndex("PedidoId");
 
-                    b.ToTable("ItensPedido");
+                    b.ToTable("ItemPedidos");
                 });
 
             modelBuilder.Entity("Vendas.API.Models.Pedido", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DataPedido")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("ClienteId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Status")
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("ValorTotal")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

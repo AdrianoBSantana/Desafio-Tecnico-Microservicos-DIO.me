@@ -15,11 +15,11 @@ namespace Vendas.API.Migrations
                 name: "Pedidos",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ClienteId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Status = table.Column<string>(type: "TEXT", nullable: false),
-                    DataCriacao = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ValorTotal = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DataPedido = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    ValorTotal = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,21 +27,21 @@ namespace Vendas.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItensPedido",
+                name: "ItemPedidos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ProdutoId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ProdutoId = table.Column<int>(type: "INTEGER", nullable: false),
                     Quantidade = table.Column<int>(type: "INTEGER", nullable: false),
-                    PrecoUnitario = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    PedidoId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    PrecoUnitario = table.Column<decimal>(type: "TEXT", nullable: false),
+                    PedidoId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItensPedido", x => x.Id);
+                    table.PrimaryKey("PK_ItemPedidos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ItensPedido_Pedidos_PedidoId",
+                        name: "FK_ItemPedidos_Pedidos_PedidoId",
                         column: x => x.PedidoId,
                         principalTable: "Pedidos",
                         principalColumn: "Id",
@@ -49,8 +49,8 @@ namespace Vendas.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItensPedido_PedidoId",
-                table: "ItensPedido",
+                name: "IX_ItemPedidos_PedidoId",
+                table: "ItemPedidos",
                 column: "PedidoId");
         }
 
@@ -58,7 +58,7 @@ namespace Vendas.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ItensPedido");
+                name: "ItemPedidos");
 
             migrationBuilder.DropTable(
                 name: "Pedidos");
