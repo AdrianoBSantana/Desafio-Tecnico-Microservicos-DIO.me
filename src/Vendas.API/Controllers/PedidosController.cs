@@ -18,12 +18,18 @@ public class PedidosController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Pedido>> PostPedido(Pedido pedido)
     {
-        // Ao criar, definimos a data e o status inicial
+        // Define a data do pedido para o momento atual e o status inicial
         pedido.DataPedido = DateTime.UtcNow;
         pedido.Status = StatusPedido.Processando;
         
-        // Lógica para calcular o valor total, se necessário
-        // pedido.ValorTotal = pedido.Itens.Sum(i => i.Quantidade * i.PrecoUnitario);
+        // ---- Futuramente, aqui entrará a lógica para se comunicar com a Estoque.API ----
+        // 1. Para cada item no 'pedido.Itens', verificar se há estoque suficiente na Estoque.API.
+        // 2. Se não houver, retorna um BadRequest("Produto sem estoque.").
+        // 3. Se houver, continua e dá baixa no estoque.
+        // --------------------------------------------------------------------------------
+
+        // Lógica para calcular o valor total do pedido com base nos itens
+        pedido.ValorTotal = pedido.Itens.Sum(i => i.Quantidade * i.PrecoUnitario);
 
         _context.Pedidos.Add(pedido);
         await _context.SaveChangesAsync();
@@ -35,7 +41,7 @@ public class PedidosController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Pedido>>> GetPedidos()
     {
-        // Inclui os itens de cada pedido na consulta
+        // Usamos .Include() para que os itens de cada pedido também sejam retornados na consulta
         return await _context.Pedidos.Include(p => p.Itens).ToListAsync();
     }
 
@@ -43,6 +49,7 @@ public class PedidosController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Pedido>> GetPedido(int id)
     {
+        // Encontra o pedido e também inclui os seus itens
         var pedido = await _context.Pedidos
             .Include(p => p.Itens)
             .FirstOrDefaultAsync(p => p.Id == id);

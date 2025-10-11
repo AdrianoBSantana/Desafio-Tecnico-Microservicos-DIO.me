@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization; // <-- ADICIONE ESTE USING
+
 namespace Vendas.API.Models
 {
     public class ItemPedido
@@ -6,7 +8,10 @@ namespace Vendas.API.Models
         public int ProdutoId { get; set; }
         public int Quantidade { get; set; }
         public decimal PrecoUnitario { get; set; }
+        
         public int PedidoId { get; set; }
-        public Pedido Pedido { get; set; } = null!;
+
+        [JsonIgnore] // <-- ADICIONE ESTE ATRIBUTO
+        public Pedido? Pedido { get; set; }
     }
 }
