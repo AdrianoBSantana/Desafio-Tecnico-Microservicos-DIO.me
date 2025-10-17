@@ -1,39 +1,41 @@
-// Topo do Program.cs
-
 using Estoque.API.Data;
 using Microsoft.EntityFrameworkCore;
-// Os seguintes são essenciais para o Web API funcionar:
-using Microsoft.AspNetCore.Builder; 
-using Microsoft.Extensions.DependencyInjection; 
-using Microsoft.AspNetCore.Hosting;
+using Shared.Middleware;
+using Shared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// =================================================================
-// 2. ADICIONANDO SERVIÇOS (Configuration)
-// =================================================================
+// Configura os serviços que serão injetados.
 
-// Adicionando o DbContext ao contêiner de Injeção de Dependência (DI)
-// A string de conexão é lida a partir do arquivo appsettings.json
+// Adiciona o DbContext para interagir com o banco de dados usando Entity Framework.
+// A string de conexão é lida do appsettings.json.
 builder.Services.AddDbContext<EstoqueDbContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-// Adicionando serviços essenciais: Controllers e Swagger/OpenAPI
-builder.Services.AddControllers(); // Necessário para usar Controllers MVC
-builder.Services.AddEndpointsApiExplorer(); // Necessário para o Swagger
+// Centraliza a configuração de autenticação JWT usando o método do serviço compartilhado.
+JwtService.ConfigureJwtAuthentication(builder.Services, builder.Configuration);
+
+// Adiciona suporte para controllers e documentação de API (Swagger).
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Registra os serviços do RabbitMQ para comunicação assíncrona.
+builder.Services.AddSingleton<RabbitMQService>();
+builder.Services.AddHostedService<Estoque.API.Services.EstoqueRabbitMQService>();
 
+// Configura os health checks para monitorar a saúde do banco de dados e do RabbitMQ.
+builder.Services.AddHealthChecks()
+    .AddCheck<DatabaseHealthCheck<EstoqueDbContext>>("database")
+    .AddCheck<RabbitMQHealthCheck>("rabbitmq");
 
 var app = builder.Build();
 
-// =================================================================
-// 3. CONFIGURANDO O PIPELINE DE REQUISIÇÕES (Middleware)
-// =================================================================
+// Configura o pipeline de requisições HTTP (middlewares).
 
-// Configuração para uso do Swagger/OpenAPI em ambiente de desenvolvimento
+// Em ambiente de desenvolvimento, habilita o Swagger para documentação e teste da API.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -42,10 +44,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Mapeia os controladores para receber requisições HTTP
-app.MapControllers(); 
+// Middleware customizado para logar as requisições e respostas.
+app.UseMiddleware<LoggingMiddleware>();
 
+// Habilita autenticação e autorização para as requisições.
+app.UseAuthentication();
+app.UseAuthorization();
 
+// Mapeia o endpoint /health para os health checks.
+app.MapHealthChecks("/health");
 
-// Roda a aplicação
+// Mapeia as rotas para os controllers.
+app.MapControllers();
+
 app.Run();

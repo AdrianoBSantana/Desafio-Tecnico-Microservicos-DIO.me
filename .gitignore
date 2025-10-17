@@ -1,0 +1,25 @@
+# Padrões de sistema operacional
+.DS_Store
+Thumbs.db
+
+# Pastas de build e objetos do .NET
+**/[Bb]in/
+**/[Oo]bj/
+
+# Bancos de dados locais
+*.db
+*.db-shm
+*.db-wal
+
+# Configurações de IDE e de usuário
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Arquivos de log
+*.log
+
+# Arquivos de inicialização (opcional, mas recomendado)
+**/Properties/launchSettings.json
