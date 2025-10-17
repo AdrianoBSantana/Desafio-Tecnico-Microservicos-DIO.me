@@ -1,6 +1,8 @@
 // Topo do Program.cs
 using Vendas.API.Data;
 using Microsoft.EntityFrameworkCore;
+using MassTransit;
+using Vendas.API.Outbox;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,31 @@ builder.Services.AddHttpClient<EstoqueService>(client =>
     // ❗ A URL DO SEU SERVIÇO DE ESTOQUE (Verifique a porta do Estoque.API!)
     client.BaseAddress = new Uri("http://localhost:5065"); 
 });
+
+// Configura MassTransit: prefere RabbitMQ quando configurado, senão usa InMemory
+var rabbitSection = builder.Configuration.GetSection("RabbitMQ");
+builder.Services.AddMassTransit(x =>
+{
+    if (!string.IsNullOrWhiteSpace(rabbitSection.GetValue<string>("Host")))
+    {
+        x.UsingRabbitMq((context, cfg) =>
+        {
+            cfg.Host(rabbitSection.GetValue<string>("Host"), h =>
+            {
+                h.Username(rabbitSection.GetValue<string>("Username"));
+                h.Password(rabbitSection.GetValue<string>("Password"));
+            });
+            cfg.ConfigureEndpoints(context);
+        });
+    }
+    else
+    {
+        x.UsingInMemory((context, cfg) => cfg.ConfigureEndpoints(context));
+    }
+});
+
+// Registrar o HostedService que publica mensagens outbox
+builder.Services.AddHostedService<OutboxPublisherService>();
 
 
 var app = builder.Build();

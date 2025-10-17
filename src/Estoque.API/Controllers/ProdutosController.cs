@@ -5,6 +5,7 @@ using Estoque.API.Models;
 
 [ApiController]
 [Route("api/[controller]")]
+[Microsoft.AspNetCore.Authorization.Authorize]
 public class ProdutosController : ControllerBase
 {
     private readonly EstoqueDbContext _context;
@@ -89,5 +90,42 @@ public class ProdutosController : ControllerBase
         await _context.SaveChangesAsync();
 
         return NoContent();
+    }
+
+    // POST: api/Produtos/{id}/decrement?quantidade=1
+    [HttpPost("{id}/decrement")]
+    public async Task<IActionResult> DecrementarEstoque(int id, [FromQuery] int quantidade)
+    {
+        if (quantidade <= 0)
+            return BadRequest("Quantidade deve ser maior que zero.");
+
+        var produto = await _context.Produtos.FindAsync(id);
+        if (produto == null)
+            return NotFound();
+
+        if (produto.Quantidade < quantidade)
+            return BadRequest("Estoque insuficiente.");
+
+        produto.Quantidade -= quantidade;
+        await _context.SaveChangesAsync();
+
+        return Ok(new { produto.Id, produto.Nome, produto.Quantidade });
+    }
+
+    // POST: api/Produtos/{id}/increment?quantidade=1
+    [HttpPost("{id}/increment")]
+    public async Task<IActionResult> IncrementarEstoque(int id, [FromQuery] int quantidade)
+    {
+        if (quantidade <= 0)
+            return BadRequest("Quantidade deve ser maior que zero.");
+
+        var produto = await _context.Produtos.FindAsync(id);
+        if (produto == null)
+            return NotFound();
+
+        produto.Quantidade += quantidade;
+        await _context.SaveChangesAsync();
+
+        return Ok(new { produto.Id, produto.Nome, produto.Quantidade });
     }
 }

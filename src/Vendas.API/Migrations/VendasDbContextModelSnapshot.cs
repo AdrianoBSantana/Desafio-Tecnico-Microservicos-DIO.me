@@ -15,7 +15,7 @@ namespace Vendas.API.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.9");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
 
             modelBuilder.Entity("Vendas.API.Models.ItemPedido", b =>
                 {
@@ -60,6 +60,32 @@ namespace Vendas.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Pedidos");
+                });
+
+            modelBuilder.Entity("Vendas.API.Outbox.OutboxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("OccurredOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Processed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ProcessedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OutboxMessages");
                 });
 
             modelBuilder.Entity("Vendas.API.Models.ItemPedido", b =>

@@ -1,30 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\adria\\OneDrive\\Desktop\\PROJETOS\\dio.me projects\\PROJETO MICROSERVIÇOS\\Desafio-Tecnico-Microservicos-DIO.me\\src\\Vendas.API\\Vendas.API.csproj": {}
+    "/workspaces/Desafio-Tecnico-Microservicos-DIO.me/src/Vendas.API/Vendas.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\adria\\OneDrive\\Desktop\\PROJETOS\\dio.me projects\\PROJETO MICROSERVIÇOS\\Desafio-Tecnico-Microservicos-DIO.me\\src\\Vendas.API\\Vendas.API.csproj": {
+    "/workspaces/Desafio-Tecnico-Microservicos-DIO.me/src/Shared/Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\adria\\OneDrive\\Desktop\\PROJETOS\\dio.me projects\\PROJETO MICROSERVIÇOS\\Desafio-Tecnico-Microservicos-DIO.me\\src\\Vendas.API\\Vendas.API.csproj",
-        "projectName": "Vendas.API",
-        "projectPath": "C:\\Users\\adria\\OneDrive\\Desktop\\PROJETOS\\dio.me projects\\PROJETO MICROSERVIÇOS\\Desafio-Tecnico-Microservicos-DIO.me\\src\\Vendas.API\\Vendas.API.csproj",
-        "packagesPath": "C:\\Users\\adria\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\adria\\OneDrive\\Desktop\\PROJETOS\\dio.me projects\\PROJETO MICROSERVIÇOS\\Desafio-Tecnico-Microservicos-DIO.me\\src\\Vendas.API\\obj\\",
+        "projectUniqueName": "/workspaces/Desafio-Tecnico-Microservicos-DIO.me/src/Shared/Shared.csproj",
+        "projectName": "Shared",
+        "projectPath": "/workspaces/Desafio-Tecnico-Microservicos-DIO.me/src/Shared/Shared.csproj",
+        "packagesPath": "/home/codespace/.nuget/packages/",
+        "outputPath": "/workspaces/Desafio-Tecnico-Microservicos-DIO.me/src/Shared/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\adria\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net9.0"
+          "net8.0"
         ],
         "sources": {
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net9.0": {
-            "targetAlias": "net9.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -37,30 +37,103 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.300"
+        }
       },
       "frameworks": {
-        "net9.0": {
-          "targetAlias": "net9.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.412/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/workspaces/Desafio-Tecnico-Microservicos-DIO.me/src/Vendas.API/Vendas.API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/workspaces/Desafio-Tecnico-Microservicos-DIO.me/src/Vendas.API/Vendas.API.csproj",
+        "projectName": "Vendas.API",
+        "projectPath": "/workspaces/Desafio-Tecnico-Microservicos-DIO.me/src/Vendas.API/Vendas.API.csproj",
+        "packagesPath": "/home/codespace/.nuget/packages/",
+        "outputPath": "/workspaces/Desafio-Tecnico-Microservicos-DIO.me/src/Vendas.API/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/workspaces/Desafio-Tecnico-Microservicos-DIO.me/src/Shared/Shared.csproj": {
+                "projectPath": "/workspaces/Desafio-Tecnico-Microservicos-DIO.me/src/Shared/Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
+            "MassTransit": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "MassTransit.RabbitMQ": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[9.0.9, )"
+              "version": "[8.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.9, )"
+              "version": "[8.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
-              "version": "[9.0.9, )"
+              "version": "[8.0.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[9.0.6, )"
+              "version": "[8.0.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.35.0, )"
             }
           },
           "imports": [
@@ -82,7 +155,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.412/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
