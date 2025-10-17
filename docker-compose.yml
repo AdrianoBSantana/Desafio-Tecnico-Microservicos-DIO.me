@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672" # management UI
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  estoque.api:
+    build:
+      context: .
+      dockerfile: src/Estoque.API/Dockerfile
+    ports:
+      - "5065:80"
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  vendas.api:
+    build:
+      context: .
+      dockerfile: src/Vendas.API/Dockerfile
+    ports:
+      - "5045:80"
+    depends_on:
+      - rabbitmq
+      - estoque.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development

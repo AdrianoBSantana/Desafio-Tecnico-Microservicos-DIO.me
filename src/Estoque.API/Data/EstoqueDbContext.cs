@@ -13,6 +13,7 @@ namespace Estoque.API.Data
         }
 
         public DbSet<Produto> Produtos { get; set; }
+    public DbSet<Estoque.API.Models.ProcessedOrder> ProcessedOrders { get; set; }
 
         // ADICIONE ESTE MÉTODO
         protected override void OnModelCreating(ModelBuilder modelBuilder)

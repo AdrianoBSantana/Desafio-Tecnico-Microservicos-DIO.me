@@ -2,6 +2,8 @@
 
 using Estoque.API.Data;
 using Microsoft.EntityFrameworkCore;
+using MassTransit;
+using Estoque.API.Consumers;
 // Os seguintes são essenciais para o Web API funcionar:
 using Microsoft.AspNetCore.Builder; 
 using Microsoft.Extensions.DependencyInjection; 
@@ -24,6 +26,27 @@ builder.Services.AddDbContext<EstoqueDbContext>(options =>
 builder.Services.AddControllers(); // Necessário para usar Controllers MVC
 builder.Services.AddEndpointsApiExplorer(); // Necessário para o Swagger
 builder.Services.AddSwaggerGen();
+
+// Configura MassTransit com RabbitMQ (lê as configurações de appsettings)
+var rabbitSection = builder.Configuration.GetSection("RabbitMQ");
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<VendaRealizadaConsumer>();
+
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(rabbitSection.GetValue<string>("Host"), h =>
+        {
+            h.Username(rabbitSection.GetValue<string>("Username"));
+            h.Password(rabbitSection.GetValue<string>("Password"));
+        });
+
+        cfg.ReceiveEndpoint("vendas-queue", e =>
+        {
+            e.ConfigureConsumer<VendaRealizadaConsumer>(context);
+        });
+    });
+});
 
 
 
